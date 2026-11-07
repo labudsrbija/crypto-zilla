@@ -17,4 +17,6 @@ data/
 .coverage
 htmlcov/
 *.swp
-
+spark-warehouse/
+metastore_db/
+derby.log

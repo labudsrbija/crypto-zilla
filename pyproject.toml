@@ -5,13 +5,18 @@ description = "Streaming lakehouse for crypto and market data"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "confluent-kafka>=2.6",
     "pydantic>=2.9",
     "pydantic-settings>=2.6",
-    "websockets>=14.0",
 ]
 
 [project.optional-dependencies]
+ingest = [
+    "confluent-kafka>=2.6",
+    "websockets>=14.0",
+]
+spark = [
+    "pyspark==4.1.4",
+]
 dev = [
     "mypy>=1.13",
     "pytest>=8.3",
@@ -39,10 +44,11 @@ strict = true
 plugins = ["pydantic.mypy"]
 
 [[tool.mypy.overrides]]
-module = ["confluent_kafka.*"]
+module = ["confluent_kafka.*", "pyspark.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
+markers = ["spark: needs a local Spark session (Java required)"]

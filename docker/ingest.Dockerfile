@@ -6,7 +6,7 @@ ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy UV_PYTHON_DOWNLOADS=never
 WORKDIR /app
 COPY pyproject.toml README.md ./
 COPY src ./src
-RUN uv venv /opt/venv && VIRTUAL_ENV=/opt/venv uv pip install --no-cache .
+RUN uv venv /opt/venv && VIRTUAL_ENV=/opt/venv uv pip install --no-cache ".[ingest]"
 
 
 FROM python:3.12-slim

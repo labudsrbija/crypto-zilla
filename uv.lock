@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.12"
 resolution-markers = [
     "python_full_version >= '3.15'",
@@ -125,10 +125,8 @@ name = "cryptozilla"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
-    { name = "confluent-kafka" },
     { name = "pydantic" },
     { name = "pydantic-settings" },
-    { name = "websockets" },
 ]
 
 [package.optional-dependencies]
@@ -138,19 +136,27 @@ dev = [
     { name = "pytest-asyncio" },
     { name = "ruff" },
 ]
+ingest = [
+    { name = "confluent-kafka" },
+    { name = "websockets" },
+]
+spark = [
+    { name = "pyspark" },
+]
 
 [package.metadata]
 requires-dist = [
-    { name = "confluent-kafka", specifier = ">=2.6" },
+    { name = "confluent-kafka", marker = "extra == 'ingest'", specifier = ">=2.6" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.13" },
     { name = "pydantic", specifier = ">=2.9" },
     { name = "pydantic-settings", specifier = ">=2.6" },
+    { name = "pyspark", marker = "extra == 'spark'", specifier = "==4.1.4" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3" },
     { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = ">=0.24" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.8" },
-    { name = "websockets", specifier = ">=14.0" },
+    { name = "websockets", marker = "extra == 'ingest'", specifier = ">=14.0" },
 ]
-provides-extras = ["dev"]
+provides-extras = ["ingest", "spark", "dev"]
 
 [[package]]
 name = "iniconfig"
@@ -353,6 +359,15 @@ wheels = [
 ]
 
 [[package]]
+name = "py4j"
+version = "0.10.9.9"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/38/31/0b210511177070c8d5d3059556194352e5753602fa64b85b7ab81ec1a009/py4j-0.10.9.9.tar.gz", hash = "sha256:f694cad19efa5bd1dee4f3e5270eb406613c974394035e5bfc4ec1aba870b879", size = 761089, upload-time = "2025-01-15T03:53:18.624Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/bd/db/ea0203e495be491c85af87b66e37acfd3bf756fd985f87e46fc5e3bf022c/py4j-0.10.9.9-py2.py3-none-any.whl", hash = "sha256:c7c26e4158defb37b0bb124933163641a2ff6e3a3913f7811b0ddbe07ed61533", size = 203008, upload-time = "2025-01-15T03:53:15.648Z" },
+]
+
+[[package]]
 name = "pydantic"
 version = "2.14.3"
 source = { registry = "https://pypi.org/simple" }
@@ -499,6 +514,15 @@ sdist = { url = "https://files.pythonhosted.org/packages/49/2e/ced460408999b33da
 wheels = [
     { url = "https://files.pythonhosted.org/packages/71/46/17f022dd3e953bf20a04a028a21ec746d942f8d2af30fa0f124fa0e6a684/pygments-2.21.0-py3-none-any.whl", hash = "sha256:2363c69b61c4a97c838da3b130dcd6468f4848992b21a82f2a63ec34377137d9", size = 1250147, upload-time = "2026-08-17T08:02:44.912Z" },
 ]
+
+[[package]]
+name = "pyspark"
+version = "4.1.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "py4j" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/98/d6/46ba9775802e578eb853bca200bf079327a2e8bb801684913041400ee287/pyspark-4.1.4.tar.gz", hash = "sha256:bcbd5e18690cf79d438e97210ad06fb8d451a251bb77becc2b0418868d2acd73", size = 455589214, upload-time = "2026-10-27T18:17:29.272Z" }
 
 [[package]]
 name = "pytest"

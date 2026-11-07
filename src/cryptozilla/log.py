@@ -4,7 +4,8 @@ import sys
 from datetime import UTC, datetime
 from typing import Any
 
-_RESERVED = set(vars(logging.makeLogRecord({})))
+# Formatter.format() adds message and asctime to the record, so they aren't in a fresh one
+_RESERVED = set(vars(logging.makeLogRecord({}))) | {"message", "asctime"}
 
 
 def _extras(record: logging.LogRecord) -> dict[str, Any]:
@@ -41,4 +42,5 @@ def setup_logging(level: str = "INFO", fmt: str = "text") -> None:
     root = logging.getLogger()
     root.handlers[:] = [handler]
     root.setLevel(level.upper())
-    logging.getLogger("websockets").setLevel(logging.WARNING)
+    for noisy in ("websockets", "py4j"):
+        logging.getLogger(noisy).setLevel(logging.WARNING)
